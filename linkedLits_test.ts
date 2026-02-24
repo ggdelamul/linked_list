@@ -1,4 +1,4 @@
-import { Noeud, LinkedList, reverseList } from "./linkedList";
+import { Noeud, LinkedList, reverseList } from "./src/linkedList";
 
 const list = new LinkedList<String>(7);
 
