@@ -88,6 +88,9 @@ export class LinkedList<T> {
     if (position === 0) {
       newNode.next = this.head;
       this.head = newNode;
+      if (this.currentSize === 0) {
+        this.tail = newNode;
+      }
       this.currentSize++;
       return;
     }
@@ -102,6 +105,9 @@ export class LinkedList<T> {
 
     newNode.next = currentNode.next;
     currentNode.next = newNode;
+    if (newNode.next === null) {
+      this.tail = newNode;
+    }
     this.currentSize++;
   }
 
@@ -112,6 +118,12 @@ export class LinkedList<T> {
 
     this.head = this.head.next;
     this.currentSize--;
+    if (this.currentSize === 0) {
+      this.tail = null;
+    }
+    if (this.currentSize === 1) {
+      this.tail = this.head;
+    }
   }
 
   deleteLast(): void {
@@ -122,6 +134,7 @@ export class LinkedList<T> {
     // Cas : un seul élément
     if (!this.head.next) {
       this.head = null;
+      this.tail = null;
       this.currentSize--;
       return;
     }
@@ -133,6 +146,7 @@ export class LinkedList<T> {
     }
 
     currentNode.next = null;
+    this.tail = currentNode;
     this.currentSize--;
   }
 
@@ -148,6 +162,9 @@ export class LinkedList<T> {
     if (position === 0) {
       this.head = this.head.next;
       this.currentSize--;
+      if (this.currentSize === 0) {
+        this.tail = null;
+      }
       return;
     }
 
@@ -160,6 +177,9 @@ export class LinkedList<T> {
     }
 
     currentNode.next = currentNode.next?.next || null;
+    if (currentNode.next === null) {
+      this.tail = currentNode;
+    }
     this.currentSize--;
   }
 
@@ -194,6 +214,7 @@ export class LinkedList<T> {
 }
 
 export function reverseList<T>(liste: LinkedList<T>): LinkedList<T> {
+  const oldHead = liste.head;
   let currentNode: Noeud<T> | null = liste.head;
   let previous: Noeud<T> | null = null;
 
@@ -205,5 +226,6 @@ export function reverseList<T>(liste: LinkedList<T>): LinkedList<T> {
   }
 
   liste.head = previous;
+  liste.tail = oldHead;
   return liste;
 }
