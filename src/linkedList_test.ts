@@ -1,6 +1,12 @@
-import { Noeud, LinkedList, reverseList } from "./src/linkedList";
+import {
+  Noeud,
+  LinkedList,
+  reverseList,
+  insertionSort,
+  Comparator,
+} from "./linkedList";
 
-const list = new LinkedList<String>(7);
+const list = new LinkedList<string>(7);
 
 list.addFirst("a");
 console.log("apres addFirst");
@@ -39,5 +45,16 @@ let value = list.getValue(2);
 console.log("apres getValue");
 console.log(value);
 
-let listReversed: LinkedList<String> = reverseList(list);
+let listReversed: LinkedList<string> = reverseList(list);
 listReversed.show();
+
+console.log("////ici demarre le code du tri");
+const stringComparator: Comparator<string> = (a, b) => {
+  return a.localeCompare(b);
+};
+
+let SortedList: LinkedList<string> = insertionSort<string>(
+  list,
+  stringComparator,
+);
+SortedList.show();

@@ -62,13 +62,11 @@ Optimiser l’ajout en fin de liste (`addLast`) et simplifier certaines opérati
   - Temporelle : O(n²)
   - Spatiale : O(1)
 
-### 2️⃣ Merge Sort (Tri fusion)
+- Mise en place d'un comparateur générique
 
-- Tri optimal pour listes chaînées
-- Fusion efficace via pointeurs
-- Complexité :
-  - Temporelle : O(n log n)
-  - Spatiale : O(log n) (récursion)
+```
+export type Comparator<T> = (a: T, b: T) => number;
+```
 
 ---
 

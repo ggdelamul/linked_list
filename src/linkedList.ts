@@ -26,7 +26,6 @@ export class LinkedList<T> {
   }
 
   show(): void {
-    console.log("La liste contient " + this.currentSize + " éléments");
     let current = this.head;
     let listeString = "";
 
@@ -43,6 +42,7 @@ export class LinkedList<T> {
         " et la queue " +
         this.tail?.value,
     );
+    console.log("La liste contient " + this.currentSize + " éléments");
   }
   addFirst(value: T): void {
     if (this.currentSize >= this.size) {
@@ -227,5 +227,50 @@ export function reverseList<T>(liste: LinkedList<T>): LinkedList<T> {
 
   liste.head = previous;
   liste.tail = oldHead;
+  return liste;
+}
+
+export type Comparator<T> = (a: T, b: T) => number;
+export function insertionSort<T>(
+  liste: LinkedList<T>,
+  comparator: Comparator<T>,
+): LinkedList<T> {
+  // Liste triée initialement vide
+  let sortedHead: Noeud<T> | null = null;
+  let current: Noeud<T> | null = liste.head;
+  while (current !== null) {
+    const next = current.next; // Sauvegarde du suivant
+    current.next = null; // On détache le noeud
+    // Cas 1 : liste triée vide
+    if (!sortedHead) {
+      sortedHead = current;
+    }
+    // Cas 2 : insertion en tête
+    else if (comparator(current.value, sortedHead.value) <= 0) {
+      current.next = sortedHead;
+      sortedHead = current;
+    }
+    // Cas 3 : insertion au milieu ou fin
+    else {
+      let sortedCurrent = sortedHead;
+      while (
+        sortedCurrent.next !== null &&
+        comparator(current.value, sortedCurrent.next.value) > 0
+      ) {
+        sortedCurrent = sortedCurrent.next;
+      }
+      current.next = sortedCurrent.next;
+      sortedCurrent.next = current;
+    }
+    current = next;
+  }
+  // Mise à jour de la liste originale
+  liste.head = sortedHead;
+  // Recalcul du tail
+  let newTail = sortedHead;
+  while (newTail?.next) {
+    newTail = newTail.next;
+  }
+  liste.tail = newTail;
   return liste;
 }
