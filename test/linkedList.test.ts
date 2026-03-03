@@ -211,4 +211,26 @@ describe("LinkedList", () => {
       expect(reversed.head?.next?.value).toBe(2);
     });
   });
+
+  describe("hasCycle", () => {
+    it("devrait retourner false si la liste ne contient pas de cycle", () => {
+      const list = new LinkedList<number>(5);
+      list.addLast(1);
+      list.addLast(2);
+      list.addLast(3);
+      expect(list.hasCycle()).toBe(false);
+    });
+
+    it("devrait retourner true si la liste contient un cycle", () => {
+      const list = new LinkedList<number>(5);
+      list.addLast(1);
+      list.addLast(2);
+      list.addLast(3);
+      // Création manuelle d'un cycle : le dernier élément pointe vers le deuxième (3 -> 2)
+      if (list.tail && list.head?.next) {
+        list.tail.next = list.head.next;
+      }
+      expect(list.hasCycle()).toBe(true);
+    });
+  });
 });
